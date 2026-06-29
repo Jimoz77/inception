@@ -1,0 +1,13 @@
+[mysqls]
+
+#dossier physique ou stocker data et link au volume
+datadir = /var/lib/mysql
+
+#pour ecouter sur toutes ip du reseau docker (inceptionNetwork)
+bind_address=*
+
+#port par defaut de Mariadb
+port = 3306
+
+#system user qui tourne le service 
+user = mysql
