@@ -1,5 +1,5 @@
 #pour l avant-derniere version stable de debian demande de le sbjct
-FROM debian:bookworm
+FROM debian:bullseye
 
 #mise a jour de paquets + installation de mariaDB
 RUN apt update -y && apt upgrade -y && \
@@ -12,7 +12,7 @@ COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY tools/mariadb.sh /mariadb.sh
 
 #donne le bon droit au script
-RUN chmod +x /mariadb.sh
+RUN chmod +x /mariadb.sh
 
 #exposition du port pour la communication des conteneur
 EXPOSE 3306

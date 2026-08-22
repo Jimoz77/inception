@@ -20,19 +20,19 @@ services:
   # 2) MOTEUR WORDPRESS + PHP-FPM
   wordpress:
     build:
-        context: ./requirements/wordpress
-        dockerfile: Dockerfile
-      container_name: wordpress
-      restart: always
-      env_file: .env
-      networks:
-        - inception_network
-      volumes:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    container_name: wordpress
+    restart: always
+    env_file: .env
+    networks:
+      - inception_network
+    volumes:
         #volume qui contient les fichier du site wordpress
-        -wp_data:/var/www/html
+      - wp_data:/var/www/html
         #pour etre sur que la db soit lancé avant wordpress
-      depends_on:
-        - mariadb
+    depends_on:
+      - mariadb
 
   #3) NGINX
   nginx:
@@ -45,34 +45,34 @@ services:
     ports:
       #point d'entrée pour le client via le port 443
       - "443:443"
-      networks:
-        - inception:network
-      volumes:
-        #donne acces sur les fichier wordpress pour que nginx puisse lire les ressource statique ?????
-        - wp_data:/var/www/html
-      depends_on:
-        - wordpress
+    networks:
+      - inception_network
+    volumes:
+      #donne acces sur les fichier wordpress pour que nginx puisse lire les ressource statique ?????
+      - wp_data:/var/www/html
+    depends_on:
+      - wordpress
 
   #4) LE RESEAU PRIVE
-      networks:
-        inception_network:
-          driver: bridge #bridge pour la connexion entre les conteneurs
+networks:
+  inception_network:
+    driver: bridge #bridge pour la connexion entre les conteneurs
 
 
   #5) LES VOLUMES
-  volumes:
-    db_data:
-      driver: local
-      driver_opts:
-        type: none
-        o: bind
+volumes:
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
         #les deux volume doivent stocker les données dans /home/login/data sur la machine physique
       device: /home/jiparcer/data/mariadb
 
 
-    wp_data:
-      driver: local
-      driver_opts:
-        type: none
-        o: bind
-        device: /home/jiparcer/data/wordpress
+  wp_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/jiparcer/data/wordpress
