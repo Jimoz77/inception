@@ -9,7 +9,7 @@ chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 
 #on attends pour etre sur que mariadb soit lancé
-sleep 10
+sleep 20
 
 #si le fichier wp-config.php est inex, alors wordpress pas encore installé
 

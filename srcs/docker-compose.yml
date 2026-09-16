@@ -2,6 +2,8 @@ services:
 
   # 1) MARIADB
   mariadb:
+    # Ajout du tag :inception pour respecter la règle "The latest tag is prohibited"
+    image: mariadb:inception
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
@@ -19,6 +21,8 @@ services:
 
   # 2) MOTEUR WORDPRESS + PHP-FPM
   wordpress:
+    # Ajout du tag :inception meme raison que pour mariadb
+    image: wordpress:inception
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
@@ -36,6 +40,7 @@ services:
 
   #3) NGINX
   nginx:
+    image: nginx:inception
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
@@ -48,7 +53,7 @@ services:
     networks:
       - inception_network
     volumes:
-      #donne acces sur les fichier wordpress pour que nginx puisse lire les ressource statique ?????
+      #donne acces sur les fichier wordpress pour que nginx puisse lire les ressource statique (en liant wp_data qui est un volume docker a un chemin physique du conteneur en question)
       - wp_data:/var/www/html
     depends_on:
       - wordpress
